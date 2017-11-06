@@ -1,7 +1,7 @@
 __author__ = 'Aditya Gupta'
 #"image_data_format": "channels_last"
     
-import shapes_3d
+#import shapes_3d
 #import shapes_3d_M
 import data_shapes_3d_cnn
 from keras.preprocessing.image import ImageDataGenerator
@@ -25,6 +25,7 @@ from keras import backend as K
 from keras.regularizers import l2
 K.set_image_dim_ordering('th')
 import logging
+import shapenet10
 
 #to have consistent resutls
 np.random.seed(1337) 
@@ -41,9 +42,9 @@ logging.info(str('X_Test :: shape  : ' + str(X_test.shape) + ' || type : ' + str
 logging.info(str('Y_Test :: shape  : ' + str(Y_test.shape) + '               || type : ' + str(type(Y_test))))
 
 # CNN Training parameters
-batch_size = 10
-nb_classes = 2
-nb_epoch = 1
+batch_size = 15
+nb_classes = shapenet10.nb_classes_current
+nb_epoch = 20
 
 
 #print(Y_test[0:10])
@@ -165,6 +166,6 @@ model.fit(X_train,
           validation_data=(X_test, Y_test))
 
 score = model.evaluate(X_test, Y_test, batch_size=batch_size, verbose=1)
-
+#print("Basesline: %.2f%% (%.2f%%)" % (results.mean()*100, results.std()*100))
 logging.info(str(score))
 

@@ -1,7 +1,11 @@
+#Get the data from computer and convert it into numpy array
+
+
+
 __author__ = 'Aditya Gupta'
 
 import sys, os
-sys.path.append('/home/aditya/DR/keras_3d/keras/examples')
+sys.path.append('/home/aditya/DR/keras_3d/keras/examples/3D_Object_Seg_CNN')
 import logging
 import random
 import numpy as np
@@ -21,7 +25,7 @@ from sklearn.preprocessing import LabelEncoder
 
 logging.basicConfig(level=logging.INFO, format='%(asctime)s %(levelname)s| %(message)s')
 #base_dir = Path('/home/aditya/DR/keras_3d/keras/examples/volumetric_data_D').expand()
-base_dir = Path('/home/aditya/DR/keras_3d/keras/examples/volumetric_data').expand()
+base_dir = Path('/home/aditya/DR/keras_3d/keras/examples/3D_Object_Seg_CNN/volumetric_data').expand()
 
 records = {'train': [], 'test': []}
 logging.info('Loading .mat files')
@@ -40,6 +44,11 @@ Y_train_labels = list()
 Y_test_labels = list()
 count_train = 0
 count_test = 0
+
+#just to test with small dataset, 
+count_train_TEST = 0
+count_test_TEST  = 0
+
 for fname in sorted(base_dir.walkfiles('*.mat')):
     if fname.endswith('test_feature.mat') or fname.endswith('train_feature.mat'):
         continue
