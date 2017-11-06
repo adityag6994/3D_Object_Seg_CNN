@@ -80,7 +80,7 @@ X_train =  np.zeros((len(records['train']),
 for i in records:
 	if(i == 'train'):
 		for j in records[i]:
-			X_train[count_train] = scipy.io.loadmat(j[3])['instance']
+			X_train[count_train] = scipy.io.loadmat(j[3])['instance'].astype(np.float32)
 			count_train = count_train + 1
 
 
