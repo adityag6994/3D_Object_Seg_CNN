@@ -1,6 +1,6 @@
 __author__ = 'Aditya Gupta'
 #"image_data_format": "channels_last"
-    
+
 #import shapes_3d
 #import shapes_3d_M
 import data_shapes_3d_cnn
@@ -28,7 +28,7 @@ import logging
 import shapenet10
 
 #to have consistent resutls
-np.random.seed(1337) 
+np.random.seed(1337)
 
 logging.basicConfig(level=logging.INFO, format='%(asctime)s %(levelname)s| %(message)s')
 logging.info('Loading Data...')
@@ -44,7 +44,7 @@ logging.info(str('Y_Test :: shape  : ' + str(Y_test.shape) + '               || 
 # CNN Training parameters
 batch_size = 15
 nb_classes = shapenet10.nb_classes_current
-nb_epoch = 20
+nb_epoch = 5
 
 
 #print(Y_test[0:10])
@@ -73,16 +73,17 @@ nb_conv = [7, 3]
 #            Dense
 #            Dropout
 #            Dense
+logging.info('Loading Model::-')
 
 model = Sequential()
 
 #Layer 1 : Convolution3D
 model.add(Convolution3D(input_shape=(1, patch_size, patch_size, patch_size),
 				nb_filter=32,
-				kernel_dim1=5, 
+				kernel_dim1=5,
 				kernel_dim2=5,
 				kernel_dim3=5,
-				init='normal', 
+				init='normal',
 				border_mode='valid',
 				subsample=(2,2,2),
 				dim_ordering='th',
@@ -125,7 +126,7 @@ logging.info("Layer6:Max Pool ")
 model.add(Dropout(0.4))
 logging.info("Layer7: Dropout ")
 
-#Layer 8 : Dense 
+#Layer 8 : Dense
 model.add(Flatten())
 model.add(Dense(output_dim=128,
                 init='normal',
@@ -168,4 +169,12 @@ model.fit(X_train,
 score = model.evaluate(X_test, Y_test, batch_size=batch_size, verbose=1)
 #print("Basesline: %.2f%% (%.2f%%)" % (results.mean()*100, results.std()*100))
 logging.info(str(score))
+
+# serialize model to JSON
+model_json = model.to_json()
+with open("model.json", "w") as json_file:
+    json_file.write(model_json)
+# serialize weights to HDF5
+model.save_weights("model.h5")
+print("Saved model to disk")
 
