@@ -1,0 +1,3 @@
+to save real-time point cloud in .pcd :
+
+rosrun pcl_ros pointcloud_to_pcd input:=/
